@@ -1,31 +1,27 @@
 defmodule Flattener do
   @moduledoc """
-  Documentation for Flattener.
+  Flattener is a module that provides a function for list flattening.
+  This implementation of Flattener is with tail recursion.
   """
 
   @doc """
-  Hello world.
-
+  Flattens a list.
   ## Examples
 
-      iex> Flattener.hello
-      :world
+      iex> Flattener.flatten([[[[], [], [[[], []]]],"a"], ["b", "c"], ["d", ["e", "f"]]])
+      ["a", "b", "c", "d", "e", "f"]
 
   """
-  def flatten(list) do
-    flatten(list, [])
+  def flatten(list), do: flatten(list, [])
+
+  defp flatten([], flattened), do: Enum.reverse(flattened)
+
+  defp flatten([[[] | head_tail] | tail], flattened) do
+    flatten(head_tail ++ tail, flattened)
   end
 
-  defp flatten([], flattened) do
-    Enum.reverse(flattened)
-  end
-
-  defp flatten([[[]|tail]| tail2], flattened) do
-    flatten(tail ++ tail2, flattened)
-  end
-
-  defp flatten([[head | tail]| tail2], flattened) do
-    flatten([head | tail ++ tail2], flattened)
+  defp flatten([[head | head_tail] | tail], flattened) do
+    flatten([head | head_tail ++ tail], flattened)
   end
 
   defp flatten([[] | tail], flattened) do
