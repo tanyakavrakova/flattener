@@ -16,6 +16,10 @@ defmodule Flattener do
     :world
   end
 
+  def flatten(list) do
+    flatten(list, [])
+  end
+
   def flatten([], flattened) do
     Enum.reverse(flattened)
   end
