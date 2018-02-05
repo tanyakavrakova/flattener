@@ -12,23 +12,27 @@ defmodule Flattener do
       :world
 
   """
-  def hello do
-    :world
-  end
-
   def flatten(list) do
     flatten(list, [])
   end
 
-  def flatten([], flattened) do
+  defp flatten([], flattened) do
     Enum.reverse(flattened)
   end
 
-  def flatten([[head | tail]| tail2], flattened) do
+  defp flatten([[[]|tail]| tail2], flattened) do
+    flatten(tail ++ tail2, flattened)
+  end
+
+  defp flatten([[head | tail]| tail2], flattened) do
     flatten([head | tail ++ tail2], flattened)
   end
 
-  def flatten([head | tail], flattened) do
+  defp flatten([[] | tail], flattened) do
+    flatten(tail, flattened)
+  end
+
+  defp flatten([head | tail], flattened) do
     flatten(tail, [head | flattened])
   end
 end
